@@ -47,19 +47,20 @@ main (int argc, char *argv[])
   LogComponentEnable ("UdpEchoServerApplication", LOG_LEVEL_INFO);
   
   NodeContainer tdmaNodes;
-  tdmaNodes.Create (8);
+  tdmaNodes.Create (3);
 
   
   TdmaHelper tdma = TdmaHelper(tdmaNodes.GetN(), tdmaNodes.GetN() );
-  // tdma.SetChannelAttribute ("DataRate", StringValue ("100Mbps"));
-  //tdma.SetChannelAttribute ("Delay", TimeValue (NanoSeconds (6560));
-
+  //   tdma.Set ("Delay", TimeValue (NanoSeconds (ExpRnd(1.0))));
+  //DO not know how to set the delay.  
   
   TdmaControllerHelper controller;
   controller.Set ("SlotTime", TimeValue (MicroSeconds (1100)));
   controller.Set ("GaurdTime", TimeValue (MicroSeconds (100)));
-
+  controller.Set ("DataRate", StringValue ("100Mbps"));
+  //  controller.Set ("Delay", TimeValue (NanoSeconds (ExpRnd(1.0))));
   controller.Set ("InterFrameTime", TimeValue (MicroSeconds (0)));
+ //  controller.Set ("InterFrameTime", TimeValue (NanoSeconds (ExpRnd(1.0))));
   tdma.SetTdmaControllerHelper (controller);
 
   
@@ -80,34 +81,23 @@ main (int argc, char *argv[])
 
   UdpEchoServerHelper echoServer (9);
 
-  ApplicationContainer serverApps = echoServer.Install (tdmaNodes.Get (1));
+  ApplicationContainer serverApps = echoServer.Install (tdmaNodes);
   serverApps.Start (Seconds (2.0));
   serverApps.Stop (Seconds (30.0));
 
   UdpEchoClientHelper echoClient (interfaces.GetAddress (1), 9);
-  echoClient.SetAttribute ("MaxPackets", UintegerValue (8));
-  echoClient.SetAttribute ("Interval", TimeValue (Seconds (ExpRnd(4.0))));
-  echoClient.SetAttribute ("PacketSize", UintegerValue (1024));
+  echoClient.SetAttribute ("MaxPackets", UintegerValue (3));
+  echoClient.SetAttribute ("Interval", TimeValue (Seconds (ExpRnd(1.0))));
+  echoClient.SetAttribute ("PacketSize", UintegerValue (1024));  
 
-
-  ApplicationContainer app = echoClient.Install (tdmaNodes.Get(5));
-  app.Start (Seconds (2.0));
-  app.Stop(Seconds (30.0));
-
-
-  ApplicationContainer app1 = echoClient.Install (tdmaNodes.Get(7));
-  app1.Start (Seconds (2.0));
-  app1.Stop(Seconds (30.0));
-
-
-  ApplicationContainer apps = echoClient.Install (tdmaNodes.Get(6));
-  apps.Start (Seconds (2.0));
-  apps.Stop(Seconds (30.0));
+  for (int i = 0; i < 3; i++)
+    echoClient.Install(tdmaNodes.Get(i));
   
-  
-  ApplicationContainer clientApps = echoClient.Install (tdmaNodes.Get (0));
-  clientApps.Start (Seconds (2.0));
-  clientApps.Stop (Seconds (30.0));
+
+  Simulator::Stop(Seconds(30));
+  // ApplicationContainer clientApps = echoClient.Install (tdmaNodes.Get (0));
+  // clientApps.Start (Seconds (2.0));
+  // clientApps.Stop (Seconds (30.0));
 
   Simulator::Run ();
   Simulator::Destroy ();
