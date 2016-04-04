@@ -8,4 +8,5 @@ We think that using the method - for loop in csma.cc is the correct way to do it
 
 This was generated with csmaTest.cc using multiple application containers and will probably be changed when we use another method for how many nodes are in the network.
 
-![myimage-alt-tag](csma3Nodes.png)
+![application container](graphData/csma3Nodes.png)
+![ForLoop](graphData/csma1WithLoop.png)
