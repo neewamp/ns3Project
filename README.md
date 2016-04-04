@@ -2,4 +2,10 @@
 Swathi and nathan's ns3 repo.
 
 
+What is the purpose of application container. We are not able to figure out the difference between using multiple application containers and a for loop for installing nodes.
+
+We think that using the method in csma.cc is the correct way to do it. This is because when increasing the number of nodes using two application containers the throughput went up.  With the for loop method in csma.cc throughput went down as expected.
+
+This was generated with csmaTest.cc using multiple application containers and will probably be changed when we use another method for how many nodes are in the network.
+
 ![myimage-alt-tag](csma3Nodes.png)
