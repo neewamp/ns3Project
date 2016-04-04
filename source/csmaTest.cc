@@ -14,7 +14,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//#include "ns3/random-variable.h"
 #include "ns3/socket-factory.h"
 #include "ns3/udp-socket-factory.h"
 #include "ns3/on-off-helper.h"
@@ -49,7 +48,7 @@ main (int argc, char *argv[])
   
   
   NodeContainer csmaNodes;
-  csmaNodes.Create (4);
+  csmaNodes.Create (3);
 
   
   CsmaHelper csma;
@@ -87,27 +86,17 @@ main (int argc, char *argv[])
   echoClient.SetAttribute ("PacketSize", UintegerValue (1024));
 
 
-
-  // UdpEchoClientHelper echoClient1(interfaces.GetAddress (4),12);//Ipv4Address ("10.1.1.0")/*This workiedinterfaces.GetAddress (3)*/, 9);
-  // echoClient1.SetAttribute ("MaxPackets", UintegerValue (2));
-  // echoClient1.SetAttribute ("Interval", TimeValue (Seconds (ExpRnd(1.0))));// TimeValue (Seconds (10.0)));
-  // echoClient1.SetAttribute ("PacketSize", UintegerValue (1024));
   
-  
-  for(int i = 0; i < 4 ; i++)
-    echoClient.Install(csmaNodes.Get(i));
-
-  // for(int i = 20; i < 30; i++)
+  // for(int i = 0; i < 4 ; i++)
   //   echoClient.Install(csmaNodes.Get(i));
-
-
   
   
-  // ApplicationContainer app = echoClient.Install (csmaNodes.Get(4));
-  // app.Start (Seconds (2.0));
-  // app.Stop(Seconds (30.0));
   
-  /*
+  ApplicationContainer app = echoClient.Install (csmaNodes.Get(4));
+  app.Start (Seconds (2.0));
+  app.Stop(Seconds (30.0));
+  
+  
  
   ApplicationContainer app1 = echoClient.Install (csmaNodes.Get(2));
   app1.Start (Seconds (2.0));
@@ -121,7 +110,6 @@ main (int argc, char *argv[])
   ApplicationContainer clientApps = echoClient.Install (csmaNodes.Get (0));
   clientApps.Start (Seconds (2.0));
   clientApps.Stop (Seconds (30.0));
-  */
 
 
   // Print per flow statistics

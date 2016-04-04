@@ -88,40 +88,19 @@ main (int argc, char *argv[])
 
 
 
-  // UdpEchoClientHelper echoClient1(interfaces.GetAddress (4),12);//Ipv4Address ("10.1.1.0")/*This workiedinterfaces.GetAddress (3)*/, 9);
-  // echoClient1.SetAttribute ("MaxPackets", UintegerValue (2));
-  // echoClient1.SetAttribute ("Interval", TimeValue (Seconds (ExpRnd(1.0))));// TimeValue (Seconds (10.0)));
-  // echoClient1.SetAttribute ("PacketSize", UintegerValue (1024));
-  
   //Used to increase the number of nodesls
   for(int i = 0; i < 10 ; i++)
     echoClient.Install(csmaNodes.Get(i));
 
-  // for(int i = 20; i < 30; i++)
-  //   echoClient.Install(csmaNodes.Get(i));
 
 
   
-  
+  // comment out the loop and uncomment this for another way to increase nodes.??
   // ApplicationContainer app = echoClient.Install (csmaNodes);
   // app.Start (Seconds (2.0));
   // app.Stop(Seconds (30.0));
   
   
-  /*
-  ApplicationContainer app1 = echoClient.Install (csmaNodes.Get(2));
-  app1.Start (Seconds (2.0));
-  app1.Stop(Seconds (30.0));
-
-  
-  // ApplicationContainer apps = echoClient.Install (csmaNodes.Get(3));
-  // apps.Start (Seconds (2.0));
-  // apps.Stop(Seconds (30.0));
-  
-  ApplicationContainer clientApps = echoClient.Install (csmaNodes.Get (0));
-  clientApps.Start (Seconds (2.0));
-  clientApps.Stop (Seconds (30.0));
-  */
 
 
   // Print per flow statistics
