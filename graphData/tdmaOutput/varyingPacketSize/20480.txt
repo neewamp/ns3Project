@@ -1,0 +1,19 @@
+At time 0s client sent 20480 bytes to 10.1.1.2 port 9
+At time 0s client sent 20480 bytes to 10.1.1.2 port 9
+At time 0s client sent 20480 bytes to 10.1.1.2 port 9
+At time 0.501507s client sent 20480 bytes to 10.1.1.2 port 9
+At time 0.501507s client sent 20480 bytes to 10.1.1.2 port 9
+At time 0.501507s client sent 20480 bytes to 10.1.1.2 port 9
+At time 1.00301s client sent 20480 bytes to 10.1.1.2 port 9
+At time 1.00301s client sent 20480 bytes to 10.1.1.2 port 9
+At time 1.00301s client sent 20480 bytes to 10.1.1.2 port 9
+At time 1.00301s server received 20480 bytes from 10.1.1.2 port 49153
+At time 1.00301s server sent 20480 bytes to 10.1.1.2 port 49153
+At time 1.00301s client received 20480 bytes from 10.1.1.2 port 9
+At time 1.00754s server received 20480 bytes from 10.1.1.3 port 49153
+At time 1.00754s server sent 20480 bytes to 10.1.1.3 port 49153
+At time 1.00874s server received 20480 bytes from 10.1.1.1 port 49153
+At time 1.00874s server sent 20480 bytes to 10.1.1.1 port 49153
+At time 1.01354s client received 20480 bytes from 10.1.1.2 port 9
+At time 1.02056s client received 20480 bytes from 10.1.1.2 port 9
+
