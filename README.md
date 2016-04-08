@@ -6,6 +6,9 @@ What is the purpose of application container?. We are not able to figure out the
 
 We think that using the method - for loop in csma.cc is the correct way to do it. This is because when increasing the number of nodes using two application containers the throughput went up.  With the for loop method in csma.cc throughput went down as expected.
 
+Throughput for these graphs is in bytes/s.
+
+
 This was generated with csmaTest.cc using multiple application containers and will probably be changed when we use another method for how many nodes are in the network.
 
 ![application container](graphData/csma3Nodes.png)
