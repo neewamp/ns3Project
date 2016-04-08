@@ -13,7 +13,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
+#include <iostream>
 #include "ns3/mobility-module.h"
 #include "ns3/simple-wireless-tdma-module.h"
 #include "ns3/csma-module.h"
@@ -47,7 +47,7 @@ main (int argc, char *argv[])
   LogComponentEnable ("UdpEchoServerApplication", LOG_LEVEL_INFO);
   
   NodeContainer tdmaNodes;
-  tdmaNodes.Create (3);
+  tdmaNodes.Create (100);
 
   
   TdmaHelper tdma = TdmaHelper(tdmaNodes.GetN(), tdmaNodes.GetN() );
@@ -58,9 +58,9 @@ main (int argc, char *argv[])
   controller.Set ("SlotTime", TimeValue (MicroSeconds (1100)));
   controller.Set ("GaurdTime", TimeValue (MicroSeconds (100)));
   controller.Set ("DataRate", StringValue ("100Mbps"));
-  //  controller.Set ("Delay", TimeValue (NanoSeconds (ExpRnd(1.0))));
-  controller.Set ("InterFrameTime", TimeValue (MicroSeconds (0)));
- //  controller.Set ("InterFrameTime", TimeValue (NanoSeconds (ExpRnd(1.0))));
+  //   controller.Set ("InterFrameTime", TimeValue (MicroSeconds (10)));
+  // ExpRnd(1.0);
+  controller.Set ("InterFrameTime", TimeValue (NanoSeconds (ExpRnd(1.0))));
   tdma.SetTdmaControllerHelper (controller);
 
   
@@ -82,7 +82,7 @@ main (int argc, char *argv[])
   UdpEchoServerHelper echoServer (9);
 
   ApplicationContainer serverApps = echoServer.Install (tdmaNodes);
-  serverApps.Start (Seconds (2.0));
+  serverApps.Start (Seconds (1.0));
   serverApps.Stop (Seconds (30.0));
 
   UdpEchoClientHelper echoClient (interfaces.GetAddress (1), 9);
@@ -90,9 +90,9 @@ main (int argc, char *argv[])
   echoClient.SetAttribute ("Interval", TimeValue (Seconds (ExpRnd(1.0))));
   echoClient.SetAttribute ("PacketSize", UintegerValue (1024));  
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 100; i++)
     echoClient.Install(tdmaNodes.Get(i));
-  
+  //edited line 290 in the simple-wirless-tdma/modules/controller.cc commented out to allow the packet size to increase.  
 
   Simulator::Stop(Seconds(30));
   // ApplicationContainer clientApps = echoClient.Install (tdmaNodes.Get (0));
