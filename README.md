@@ -36,3 +36,7 @@ Graph for csma with varying nodes and a fixed packet size of 1024 bytes.
 Graph for csma with varying data rates.
 
 ![csmaVaryingDataRate](graphData/csmaVaryingDataRate.png)
+
+Graph for tdma with varying data rates.
+
+![tdmaVaryingDataRate](graphData/tdma3VaryingDataRate.png)
