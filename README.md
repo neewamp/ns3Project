@@ -21,3 +21,7 @@ This is a graph for tdma with 3 nodes and varying packet sizes.
 Graph for tdma with varying nodes and a fixed packet size at 1024 bytes.
 
 ![tdmaVaryingNodes](graphData/tdma1024VaryingNodes.png)
+
+Graph for csma with varying nodes and a fixed packet size of 1024 bytes.
+
+![csmaVaryingNodes](graphData/csma1024VaryingNodes.png)
