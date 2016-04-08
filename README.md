@@ -16,4 +16,4 @@ This is the method we think is correct it uses a for loop to install nodes.
 
 This is a graph for tdma with 3 nodes and varying packet sizes.
 
-![tdmapacketsize](tdma3NodesVaryingPacketsSize.png)
+![tdmapacketsize](graphData/tdma3NodesVaryingPacketsSize.png)
