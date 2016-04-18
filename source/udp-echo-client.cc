@@ -1,3 +1,4 @@
+
 /* -*- Mode:C++; c-file-style:"gnu"; indent-tabs-mode:nil; -*- */
 /*
  * Copyright 2007 University of Washington
@@ -312,8 +313,6 @@ UdpEchoClient::ScheduleTransmit (Time dt)
   }
   
 
-  
-  
 void 
 UdpEchoClient::Send (void)
 {
@@ -365,13 +364,10 @@ UdpEchoClient::Send (void)
 
   if (m_sent < m_count) 
     {
-      double pois = ExpRnd(m_sent);
-      //pois = pois *1000000000;
-       Time time(pois);
-        std::cout << m_sent << std::endl;
-      ScheduleTransmit (Time(Seconds (pois)));
-      //  std::cout << m_interval << std::endl;
-    //   ScheduleTransmit (m_interval);
+      double rnd = ExpRnd(m_interval.GetSeconds());
+      
+      ScheduleTransmit (Time(Seconds (rnd)));
+      //For non poisson traffic use  ScheduleTransmit (m_interval);
     }
 }
 
