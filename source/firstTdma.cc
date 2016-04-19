@@ -47,17 +47,15 @@ main (int argc, char *argv[])
   LogComponentEnable ("UdpEchoServerApplication", LOG_LEVEL_INFO);
   
   NodeContainer tdmaNodes;
-  tdmaNodes.Create (100);
+  tdmaNodes.Create (3);
 
   
   TdmaHelper tdma = TdmaHelper(tdmaNodes.GetN(), tdmaNodes.GetN() );
-  //   tdma.Set ("Delay", TimeValue (NanoSeconds (ExpRnd(1.0))));
-  //DO not know how to set the delay.  
-  
+ 
   TdmaControllerHelper controller;
   controller.Set ("SlotTime", TimeValue (MicroSeconds (1100)));
   controller.Set ("GaurdTime", TimeValue (MicroSeconds (100)));
-  controller.Set ("DataRate", StringValue ("100Mbps"));
+  controller.Set ("DataRate", StringValue ("1000Mbps"));
   //   controller.Set ("InterFrameTime", TimeValue (MicroSeconds (10)));
   // ExpRnd(1.0);
   controller.Set ("InterFrameTime", TimeValue (NanoSeconds (ExpRnd(1.0))));
@@ -87,10 +85,10 @@ main (int argc, char *argv[])
 
   UdpEchoClientHelper echoClient (interfaces.GetAddress (1), 9);
   echoClient.SetAttribute ("MaxPackets", UintegerValue (3));
-  echoClient.SetAttribute ("Interval", TimeValue (Seconds (ExpRnd(1.0))));
+  echoClient.SetAttribute ("Interval", TimeValue (Seconds (1.0)));
   echoClient.SetAttribute ("PacketSize", UintegerValue (1024));  
 
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < 3; i++)
     echoClient.Install(tdmaNodes.Get(i));
   //edited line 290 in the simple-wirless-tdma/modules/controller.cc commented out to allow the packet size to increase.  
 
