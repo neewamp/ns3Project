@@ -1,0 +1,4 @@
+set xlabel "Time(s)
+gnuplot> set ylabel "Throughput(bytes/s)
+gnuplot> plot "csma.txt" with lines, "tdma.txt" with lines
+gnuplot> plot "csma" with lines, "tdma" with lines
