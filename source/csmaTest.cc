@@ -14,6 +14,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+//#include "ns3/random-variable.h"
 #include "ns3/socket-factory.h"
 #include "ns3/udp-socket-factory.h"
 #include "ns3/on-off-helper.h"
@@ -24,23 +25,33 @@
 #include "ns3/network-module.h"
 #include "ns3/internet-module.h"
 #include "ns3/applications-module.h"
-
+#include<cmath>
 
 using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE ("FirstScriptExample");
+
+
 
 double ExpRnd(double mean)
 {
   double unif_rnd,exp_rnd;
   unif_rnd=(double)rand()/(double) RAND_MAX;
   exp_rnd=-mean*log(1-unif_rnd);
+  //  std::cout << "\n\n\n\n\n" << exp_rnd << "\n\n\n";
   return(exp_rnd);
 }
+
+
+
+
 
 int
 main (int argc, char *argv[])
 {
+
+
+  
   Time::SetResolution (Time::NS);
   LogComponentEnable ("UdpEchoClientApplication", LOG_LEVEL_INFO);
   LogComponentEnable ("UdpEchoServerApplication", LOG_LEVEL_INFO);  
@@ -50,16 +61,22 @@ main (int argc, char *argv[])
   NodeContainer csmaNodes;
   csmaNodes.Create (3);
 
-  
+    
   CsmaHelper csma;
-  csma.SetChannelAttribute ("DataRate", StringValue ("100Mbps"));
-  csma.SetChannelAttribute ("Delay", TimeValue (NanoSeconds (ExpRnd(1.0))));
+  csma.SetChannelAttribute ("DataRate", StringValue ("1000Mbps"));
+  //csma.SetChannelAttribute ("Delay", TimeValue (Seconds (1.36775e-15)));
+  
+  //    csma.SetChannelAttribute ("Delay", TimeValue (Seconds (poisson(.150))));
+  //csma.SetChannelAttribute ("Delay", TimeValue (NanoSeconds (ExpRnd(1.0))));
+  csma.SetChannelAttribute ("Delay", TimeValue (NanoSeconds (50)));
+  
 
+
+  
   NetDeviceContainer csmaDevices;
   csmaDevices = csma.Install (csmaNodes);
   
-
-
+  
   
   InternetStackHelper stack;
   stack.Install (csmaNodes);
@@ -74,42 +91,26 @@ main (int argc, char *argv[])
 
   
       
-  ApplicationContainer serverApps = echoServer.Install (csmaNodes.Get (1)); 
-  serverApps.Start (Seconds (1.0));
+  ApplicationContainer serverApps = echoServer.Install (csmaNodes); 
+  serverApps.Start (Seconds (1.0));//THis might need to be changed and the data regathered.
   serverApps.Stop (Seconds (30.0));
   
   
 
+
   UdpEchoClientHelper echoClient(interfaces.GetAddress (1),9);//Ipv4Address ("10.1.1.0")/*This workiedinterfaces.GetAddress (3)*/, 9);
   echoClient.SetAttribute ("MaxPackets", UintegerValue (3));
-  echoClient.SetAttribute ("Interval", TimeValue (Seconds (ExpRnd(1.0))));// TimeValue (Seconds (10.0)));
+  echoClient.SetAttribute ("Interval", TimeValue (Seconds (1)));// TimeValue (Seconds (10.0)));
+  
+  //echoClient.SetAttribute ("Interval", TimeValue (Seconds (ExpRnd(1.0))));// TimeValue (Seconds (10.0)));
   echoClient.SetAttribute ("PacketSize", UintegerValue (1024));
+  
+  //    Simulator::Schedule(Seconds(1.00301), &handler, echoClient);
 
 
-  
-  // for(int i = 0; i < 4 ; i++)
-  //   echoClient.Install(csmaNodes.Get(i));
-  
-  
-  
-  ApplicationContainer app = echoClient.Install (csmaNodes.Get(4));
-  app.Start (Seconds (2.0));
-  app.Stop(Seconds (30.0));
-  
-  
- 
-  ApplicationContainer app1 = echoClient.Install (csmaNodes.Get(2));
-  app1.Start (Seconds (2.0));
-  app1.Stop(Seconds (30.0));
-
-  
-  // ApplicationContainer apps = echoClient.Install (csmaNodes.Get(3));
-  // apps.Start (Seconds (2.0));
-  // apps.Stop(Seconds (30.0));
-  
-  ApplicationContainer clientApps = echoClient.Install (csmaNodes.Get (0));
-  clientApps.Start (Seconds (2.0));
-  clientApps.Stop (Seconds (30.0));
+  //Used to increase the number of nodesls
+  for(int i = 0; i < 3 ; i++)
+    echoClient.Install(csmaNodes.Get(i));
 
 
   // Print per flow statistics
@@ -124,6 +125,7 @@ main (int argc, char *argv[])
 
 
   Simulator::Run ();
+
   flowMonitor->SerializeToXmlFile("NameOfFile.xml", false, false);
   Simulator::Destroy ();
   return 0;
