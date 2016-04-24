@@ -1,0 +1,1 @@
+#Total delay for increasing number of nodes.
