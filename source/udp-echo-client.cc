@@ -16,6 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+#include<vector>
 #include "ns3/nstime.h" 
 #include "ns3/log.h"
 #include "ns3/ipv4-address.h"
@@ -280,37 +281,14 @@ UdpEchoClient::ScheduleTransmit (Time dt)
 
 
 
-  const double e = exp(1.0);
-  int fact(int n)
-  {
-    if(n ==1)
-      return 1;
-    return n * fact(n-1);
-
-  }
-  
-
   double ExpRnd(double mean)
   {
     double unif_rnd,exp_rnd;
-    unif_rnd=(double)rand()/(double) RAND_MAX;
+    unif_rnd=(double)rand() / (double) RAND_MAX;///(double) RAND_MAX;
     exp_rnd=-mean*log(1-unif_rnd);
     return(exp_rnd);
   }                                                                                
 
-
-  double poisson(double mean)
-  {
-
-    double pois;
-    int k = 0;
-    do {
-      k++;
-      pois = ( pow(mean, k)*pow(e,-mean))/fact(k);
-    } while (k<10);
-
-    return(pois);
-  }
   
 
 void 
@@ -365,9 +343,8 @@ UdpEchoClient::Send (void)
   if (m_sent < m_count) 
     {
       double rnd = ExpRnd(m_interval.GetSeconds());
-      
       ScheduleTransmit (Time(Seconds (rnd)));
-      //For non poisson traffic use  ScheduleTransmit (m_interval);
+      //      ScheduleTransmit (m_interval);//.5-1.0 for normal traffic generation.
     }
 }
 
