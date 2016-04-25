@@ -1,7 +1,9 @@
 set xlabel "Time(s)
-gnuplot> set ylabel "Throughput(bytes/s)
-gnuplot> plot "csma.txt" with lines, "tdma.txt" with lines
-gnuplot> plot "csma" with lines, "tdma" with lines
+set ylabel "Throughput(bytes/s)
+plot "csma" with lines, "tdma" with lines
+
+plot "csma.txt" with lines, "tdma.txt" with lines
+plot "csma" with lines, "tdma" with lines
 
 
 cat output.txt | grep received | awk '{ print $3 }' | cut -f2 -d"=" 
