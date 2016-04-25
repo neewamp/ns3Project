@@ -23,7 +23,7 @@
 #include "ns3/internet-module.h"
 #include "ns3/point-to-point-module.h"
 #include "ns3/applications-module.h"
-
+#include<string>
 using namespace ns3;
 
 NS_LOG_COMPONENT_DEFINE ("FirstScriptExample");
@@ -47,18 +47,21 @@ main (int argc, char *argv[])
   LogComponentEnable ("UdpEchoServerApplication", LOG_LEVEL_INFO);
   
   NodeContainer tdmaNodes;
-  tdmaNodes.Create (3);
+  tdmaNodes.Create (100);
 
   
   TdmaHelper tdma = TdmaHelper(tdmaNodes.GetN(), tdmaNodes.GetN() );
- 
+  std::string rate;
+  std::cin >> rate;
+  // rate = "100";
+  rate+="Mbps";
   TdmaControllerHelper controller;
   controller.Set ("SlotTime", TimeValue (MicroSeconds (1100)));
   controller.Set ("GaurdTime", TimeValue (MicroSeconds (100)));
-  controller.Set ("DataRate", StringValue ("1000Mbps"));
-  //   controller.Set ("InterFrameTime", TimeValue (MicroSeconds (10)));
+  controller.Set ("DataRate", StringValue (rate));//was 100Mbps
+  controller.Set ("InterFrameTime", TimeValue (MicroSeconds (10)));
   // ExpRnd(1.0);
-  controller.Set ("InterFrameTime", TimeValue (NanoSeconds (ExpRnd(1.0))));
+  //  controller.Set ("InterFrameTime", TimeValue (NanoSeconds (ExpRnd(1.0))));
   tdma.SetTdmaControllerHelper (controller);
 
   
@@ -83,12 +86,22 @@ main (int argc, char *argv[])
   serverApps.Start (Seconds (1.0));
   serverApps.Stop (Seconds (30.0));
 
+  
+  double interval = 1.0;
+  std::cin >> interval;
+
+
+  int PacketSize = 1024;
+  // std::cin >> PacketSize;
   UdpEchoClientHelper echoClient (interfaces.GetAddress (1), 9);
   echoClient.SetAttribute ("MaxPackets", UintegerValue (3));
-  echoClient.SetAttribute ("Interval", TimeValue (Seconds (1.0)));
+  echoClient.SetAttribute ("Interval", TimeValue (Seconds (interval)));
   echoClient.SetAttribute ("PacketSize", UintegerValue (1024));  
-
-  for (int i = 0; i < 3; i++)
+  echoClient.SetAttribute ("PacketSize", UintegerValue (PacketSize));  
+  //echoClient.SetAttribute ("PacketSize", UintegerValue (1024));  
+  int nodes = 3;
+  // std::cin >> nodes;
+  for (int i = 0; i < nodes; i++)
     echoClient.Install(tdmaNodes.Get(i));
   //edited line 290 in the simple-wirless-tdma/modules/controller.cc commented out to allow the packet size to increase.  
 
