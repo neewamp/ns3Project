@@ -1,7 +1,7 @@
 import os
-out = open('Tdma.txt','w')
+out = open('ns3Project/graphData/newGraphs/','w')
 
-for i in range(1,101):
+for i in range(1,30):
     
     inp = open('in.txt','w')
     #print(inp.readlines())
